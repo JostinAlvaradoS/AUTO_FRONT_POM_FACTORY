@@ -61,31 +61,44 @@ public abstract class BasePage {
      * @param locator Selector string in format "type:value"
      */
     protected void click(String locator) {
+        System.out.println("[BASEPAGE] Attempting to click element: " + locator);
         try {
             // Try standard click with explicit wait
+            By byLocator = parseLocator(locator);
+            System.out.println("[BASEPAGE] Parsed locator: " + byLocator);
+            
             WebElement element = wait.until(
-                ExpectedConditions.elementToBeClickable(parseLocator(locator)));
+                ExpectedConditions.elementToBeClickable(byLocator));
+            System.out.println("[BASEPAGE] Element is clickable, proceeding with click");
             
             // Scroll element into view first
+            System.out.println("[BASEPAGE] Scrolling element into view");
             ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView(true);", element);
             
             // Brief pause to ensure scroll completes
             try {
-                Thread.sleep(200);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
             
+            System.out.println("[BASEPAGE] Executing standard click");
             element.click();
+            System.out.println("[BASEPAGE] Click executed successfully");
         } catch (Exception e) {
             // Fallback: use JavaScript click if standard click fails
+            System.out.println("[BASEPAGE] Standard click failed, attempting JavaScript click fallback");
             try {
-                WebElement element = driver.findElement(parseLocator(locator));
+                By byLocator = parseLocator(locator);
+                WebElement element = driver.findElement(byLocator);
+                System.out.println("[BASEPAGE] Element found, executing JavaScript click");
                 ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
                     "arguments[0].click();", element);
+                System.out.println("[BASEPAGE] JavaScript click executed successfully");
             } catch (Exception ex) {
-                throw new RuntimeException("Failed to click element at locator: " + locator, ex);
+                System.err.println("[BASEPAGE] Both click methods failed for locator: " + locator);
+                throw new RuntimeException("Failed to click element at locator: " + locator + " - Error: " + ex.getMessage(), ex);
             }
         }
     }

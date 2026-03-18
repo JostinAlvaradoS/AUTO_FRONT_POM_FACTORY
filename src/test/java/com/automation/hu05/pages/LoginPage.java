@@ -68,7 +68,9 @@ public class LoginPage extends BasePage {
      * @param email Admin email address
      */
     public void enterEmail(String email) {
+        System.out.println("[LOGIN] Filling email field with: " + email);
         fillTextField(SelectorConstants.LOGIN_EMAIL_INPUT, email);
+        System.out.println("[LOGIN] Email field filled successfully");
     }
     
     /**
@@ -77,14 +79,18 @@ public class LoginPage extends BasePage {
      * @param password Admin password
      */
     public void enterPassword(String password) {
+        System.out.println("[LOGIN] Filling password field");
         fillTextField(SelectorConstants.LOGIN_PASSWORD_INPUT, password);
+        System.out.println("[LOGIN] Password field filled successfully");
     }
     
     /**
      * Clicks the login button to submit credentials.
      */
     public void clickLoginButton() {
+        System.out.println("[LOGIN] Clicking login button with selector: " + SelectorConstants.LOGIN_BUTTON);
         click(SelectorConstants.LOGIN_BUTTON);
+        System.out.println("[LOGIN] Login button click executed");
     }
     
     /**
@@ -95,33 +101,57 @@ public class LoginPage extends BasePage {
      * @param password Admin password
      */
     public void performLogin(String email, String password) {
+        System.out.println("[LOGIN] Starting login process with email: " + email);
+        
+        // Step 1: Enter email
+        System.out.println("[LOGIN] Entering email address...");
         enterEmail(email);
         try {
-            Thread.sleep(500); // Wait for field validation
+            Thread.sleep(800); // Wait for field validation
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
         
+        // Step 2: Enter password
+        System.out.println("[LOGIN] Entering password...");
         enterPassword(password);
         try {
-            Thread.sleep(500); // Wait for field validation
+            Thread.sleep(800); // Wait for field validation
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
         
-        // Make sure button is visible and clickable before clicking
-        if (isElementVisible(SelectorConstants.LOGIN_BUTTON)) {
-            clickLoginButton();
-        } else {
-            throw new RuntimeException("Login button is not visible - cannot proceed with login");
-        }
+        // Step 3: Click login button with enhanced diagnostics
+        System.out.println("[LOGIN] Attempting to click login button...");
         
-        // Wait for login processing and page redirect
         try {
-            Thread.sleep(2000); // Wait for authentication and redirect
+            // Check if button is visible
+            boolean isVisible = isElementVisible(SelectorConstants.LOGIN_BUTTON);
+            System.out.println("[LOGIN] Login button visible: " + isVisible);
+            
+            if (!isVisible) {
+                throw new RuntimeException("Login button is not visible - cannot proceed with login");
+            }
+            
+            // Try to click the button
+            System.out.println("[LOGIN] Clicking login button with selector: " + SelectorConstants.LOGIN_BUTTON);
+            clickLoginButton();
+            System.out.println("[LOGIN] Login button clicked successfully");
+            
+        } catch (Exception e) {
+            System.err.println("[LOGIN] Error clicking button: " + e.getMessage());
+            throw new RuntimeException("Failed to click login button", e);
+        }
+        
+        // Step 4: Wait for login processing and page redirect
+        System.out.println("[LOGIN] Waiting for authentication and page redirect...");
+        try {
+            Thread.sleep(3000); // Wait for authentication and redirect
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+        
+        System.out.println("[LOGIN] Login process completed");
     }
     
     // ================== VALIDATION METHODS ==================
