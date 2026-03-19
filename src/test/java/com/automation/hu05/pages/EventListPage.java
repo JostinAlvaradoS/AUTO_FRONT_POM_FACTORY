@@ -1,5 +1,6 @@
 package com.automation.hu05.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,15 +22,27 @@ public class EventListPage extends BasePage {
     
     // ================== List Elements ==================
     
-    @FindBy(id = "eventListTable")
+    @FindBy(xpath = "//button[contains(text(), '+ Crear Evento')]")
+    private WebElement createEventButton;
+
+    @FindBy(css = "table[data-slot='table']")
     private WebElement eventListTable;
     
-    @FindBy(css = "table tbody tr")
+    @FindBy(css = "tr[data-slot='table-row']")
     private List<WebElement> eventListRows;
     
-    @FindBy(css = ".badge-new")
-    private WebElement newEventBadge;
+    @FindBy(css = "span[data-slot='badge']")
+    private WebElement statusBadge;
+
+    @FindBy(css = "div.flex.justify-center > div.bg-white")
+    private WebElement totalEventsText;
     
+    @FindBy(xpath = "//button[contains(text(), 'Editar')]")
+    private List<WebElement> editButtons;
+
+    @FindBy(xpath = "//button[contains(text(), 'Generar Asientos')]")
+    private List<WebElement> generateSeatsButtons;
+
     /**
      * Constructor initializes WebDriver and initializes all @FindBy elements.
      * 
@@ -56,7 +69,40 @@ public class EventListPage extends BasePage {
         findElement(SelectorConstants.EVENT_LIST_TABLE);
     }
     
+    /**
+     * Clicks the "+ Crear Evento" button.
+     */
+    public void clickCreateNewEvent() {
+        click(SelectorConstants.CREATE_EVENT_BUTTON_LIST);
+    }
+
+    /**
+     * Clicks the Edit button for a specific event by name.
+     * 
+     * @param eventName Name of the event to edit
+     */
+    public void clickEditOnEvent(String eventName) {
+        for (WebElement row : eventListRows) {
+            if (row.getText().contains(eventName)) {
+                WebElement editBtn = row.findElement(By.xpath(".//button[contains(text(), 'Editar')]"));
+                editBtn.click();
+                return;
+            }
+        }
+    }
+
     // ================== EVENT VERIFICATION METHODS ==================
+    
+    /**
+     * Gets the total count of events displayed in the summary text.
+     * 
+     * @return count as integer
+     */
+    public int getTotalEventsCount() {
+        String text = getText(SelectorConstants.TOTAL_EVENTS_SUMMARY);
+        // Extract number from "Total de eventos: X"
+        return Integer.parseInt(text.replaceAll("[^0-9]", ""));
+    }
     
     /**
      * Verifies that a specific event is displayed in the list by event name.
@@ -67,8 +113,7 @@ public class EventListPage extends BasePage {
     public boolean isEventInListByName(String eventName) {
         try {
             for (WebElement row : eventListRows) {
-                String rowText = row.getText();
-                if (rowText.contains(eventName)) {
+                if (row.getText().contains(eventName)) {
                     return true;
                 }
             }
@@ -77,30 +122,25 @@ public class EventListPage extends BasePage {
             return false;
         }
     }
-    
+
     /**
-     * Verifies that an event is displayed with complete details.
-     * Checks for name, location, and date in the same row.
+     * Checks if an event is marked as "Activo" (badge verification).
      * 
-     * @param eventName Name of event to verify
-     * @param location Location of event
-     * @param datePattern Date pattern to match (partial match allowed)
-     * @return true if event with all details found, false otherwise
+     * @param eventName Name of the event
+     * @return true if active badge found in that row
      */
-    public boolean isEventDisplayedWithDetails(String eventName, String location, String datePattern) {
-        try {
-            for (WebElement row : eventListRows) {
-                String rowText = row.getText();
-                if (rowText.contains(eventName) && 
-                    rowText.contains(location) && 
-                    rowText.contains(datePattern)) {
-                    return true;
+    public boolean isEventStatusActive(String eventName) {
+        for (WebElement row : eventListRows) {
+            if (row.getText().contains(eventName)) {
+                try {
+                    WebElement badge = row.findElement(By.xpath(".//span[@data-slot='badge' and contains(text(), 'Activo')]"));
+                    return badge.isDisplayed();
+                } catch (Exception e) {
+                    return false;
                 }
             }
-            return false;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
     
     /**

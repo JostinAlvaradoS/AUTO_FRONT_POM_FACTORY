@@ -105,14 +105,37 @@ public abstract class BasePage {
     
     /**
      * Fills a text field by clearing it first, then typing text.
+     * Uses multiple attempts to clear and send keys to handle Shadcn components.
      * 
      * @param locator Selector string in format "type:value"
      * @param text Text to enter into the field
      */
     protected void fillTextField(String locator, String text) {
         WebElement element = findElement(locator);
+        
+        // Scroll to element
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
+            "arguments[0].scrollIntoView({block: 'center'});", element);
+            
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Use action to click first to ensure focus
+        element.click();
+        
+        // Clear field using Ctrl+A + Backspace if clear() is unreliable
         element.clear();
+        if (!element.getAttribute("value").isEmpty()) {
+            element.sendKeys(org.openqa.selenium.Keys.chord(org.openqa.selenium.Keys.CONTROL, "a"), org.openqa.selenium.Keys.BACK_SPACE);
+        }
+        
         element.sendKeys(text);
+        
+        // Verify input (optional but helpful for flaky environments)
+        System.out.println("[BASEPAGE] Filled " + locator + " with: " + text);
     }
     
     /**
@@ -131,7 +154,7 @@ public abstract class BasePage {
      * @param locator Selector string in format "type:value"
      * @return true if element is visible, false if wait times out
      */
-    protected boolean isElementVisible(String locator) {
+    public boolean isElementVisible(String locator) {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(
                 parseLocator(locator)));
@@ -194,5 +217,14 @@ public abstract class BasePage {
                 throw new IllegalArgumentException("Unknown locator type: '" + type + 
                     "'. Supported types: id, class, css, xpath, name");
         }
+    }
+
+    /**
+     * Gets the current URL of the driver.
+     * 
+     * @return current URL string
+     */
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
     }
 }

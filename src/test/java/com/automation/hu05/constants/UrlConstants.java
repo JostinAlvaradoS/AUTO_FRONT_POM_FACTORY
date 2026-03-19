@@ -19,7 +19,7 @@ public class UrlConstants {
     public static final String ADMIN_LOGIN_PAGE = BASE_URL + "/admin/login";
     
     /** Event registration/creation page */
-    public static final String EVENT_REGISTRATION_PAGE = BASE_URL + "/admin/events/register";
+    public static final String EVENT_REGISTRATION_PAGE = BASE_URL + "/admin/events/create";
     
     /** Event list/management page */
     public static final String EVENT_LIST_PAGE = BASE_URL + "/admin/events";

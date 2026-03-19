@@ -69,10 +69,8 @@ public class HU05Hooks {
     @Before(order = 2)
     public void setupUserAndLogin() {
         try {
-            // Create test user via API
+            // Create test user via API. UI login is handled explicitly in step definitions
             createTestUserViaAPI();
-            // Then login via UI
-            loginAsTestUser();
         } catch (Exception e) {
             System.err.println("[HU05] ✗ Failed to setup user and login: " + e.getMessage());
             // Don't throw - allow test to continue if login setup fails

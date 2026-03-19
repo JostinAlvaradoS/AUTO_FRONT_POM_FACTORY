@@ -20,19 +20,30 @@ public class LoginPage extends BasePage {
     
     // ================== Form Input Elements ==================
     
-    @FindBy(id = "email")
+    @FindBy(css = "#email")
     private WebElement emailInput;
     
-    @FindBy(id = "password")
+    @FindBy(css = "#password")
     private WebElement passwordInput;
     
-    @FindBy(id = "loginBtn")
+    /** Toggle password visibility button next to password input */
+    @FindBy(css = "#password ~ button")
+    private WebElement togglePasswordButton;
+    
+    @FindBy(xpath = "//button[contains(text(), 'Iniciar Sesión')]")
     private WebElement loginButton;
+
+    /** Auto-fill button for quick testing provided in the UI */
+    @FindBy(xpath = "//button[contains(text(), 'Auto-completar formulario')]")
+    private WebElement autoFillButton;
     
     // ================== Error Messages ==================
     
-    @FindBy(id = "loginError")
-    private WebElement loginErrorMessage;
+    @FindBy(css = "div[data-slot='alert'].text-destructive")
+    private WebElement unauthorizedAlert;
+
+    @FindBy(xpath = "//div[contains(text(), 'Acceso no autorizado. Se requiere rol de administrador.')]")
+    private WebElement unauthorizedRoleMessage;
     
     /**
      * Constructor initializes WebDriver and initializes all @FindBy elements.
@@ -59,6 +70,13 @@ public class LoginPage extends BasePage {
     private void implicitlyWaitForPageLoad() {
         findElement(SelectorConstants.LOGIN_EMAIL_INPUT);
     }
+
+    /**
+     * Uses the UI auto-fill button to populate credentials.
+     */
+    public void useAutoFillButton() {
+        click(SelectorConstants.LOGIN_AUTOFILL_BUTTON);
+    }
     
     // ================== LOGIN METHODS ==================
     
@@ -68,9 +86,7 @@ public class LoginPage extends BasePage {
      * @param email Admin email address
      */
     public void enterEmail(String email) {
-        System.out.println("[LOGIN] Filling email field with: " + email);
         fillTextField(SelectorConstants.LOGIN_EMAIL_INPUT, email);
-        System.out.println("[LOGIN] Email field filled successfully");
     }
     
     /**
@@ -79,18 +95,23 @@ public class LoginPage extends BasePage {
      * @param password Admin password
      */
     public void enterPassword(String password) {
-        System.out.println("[LOGIN] Filling password field");
         fillTextField(SelectorConstants.LOGIN_PASSWORD_INPUT, password);
-        System.out.println("[LOGIN] Password field filled successfully");
     }
     
     /**
      * Clicks the login button to submit credentials.
      */
     public void clickLoginButton() {
-        System.out.println("[LOGIN] Clicking login button with selector: " + SelectorConstants.LOGIN_BUTTON);
         click(SelectorConstants.LOGIN_BUTTON);
-        System.out.println("[LOGIN] Login button click executed");
+    }
+
+    /**
+     * Checks if the unauthorized role error alert is visible.
+     * 
+     * @return true if error is displayed, false otherwise
+     */
+    public boolean isUnauthorizedRoleErrorDisplayed() {
+        return isElementVisible(SelectorConstants.UNAUTHORIZED_ALERT);
     }
     
     /**
@@ -162,7 +183,7 @@ public class LoginPage extends BasePage {
      * @return true if error message visible, false otherwise
      */
     public boolean isLoginErrorDisplayed() {
-        return isElementVisible(SelectorConstants.LOGIN_ERROR_MESSAGE);
+        return isUnauthorizedRoleErrorDisplayed();
     }
     
     /**
@@ -171,7 +192,7 @@ public class LoginPage extends BasePage {
      * @return Error message text
      */
     public String getLoginErrorText() {
-        return getText(SelectorConstants.LOGIN_ERROR_MESSAGE);
+        return getText(SelectorConstants.UNAUTHORIZED_ALERT);
     }
     
     /**
