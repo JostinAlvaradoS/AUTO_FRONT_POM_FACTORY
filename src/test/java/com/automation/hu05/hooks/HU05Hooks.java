@@ -61,6 +61,15 @@ public class HU05Hooks {
             throw new RuntimeException("WebDriver initialization failed", e);
         }
     }
+
+    /**
+     * Store current Cucumber Scenario in a ThreadLocal so step definitions can
+     * access it to attach screenshots or other evidence.
+     */
+    @Before(order = 0)
+    public void storeScenario(io.cucumber.java.Scenario scenario) {
+        CurrentScenario.set(scenario);
+    }
     
     /**
      * Login step: Creates a test user via API and logs in via UI.
@@ -201,6 +210,7 @@ public class HU05Hooks {
         } finally {
             // Always clean scenario context
             HU05Hooks.ScenarioContext.clear();
+            CurrentScenario.clear();
         }
     }
     
@@ -296,6 +306,25 @@ public class HU05Hooks {
         
         public static void clear() {
             eventId.remove();
+        }
+    }
+
+    /**
+     * Holds the current Cucumber Scenario for the running thread.
+     */
+    public static class CurrentScenario {
+        private static final ThreadLocal<io.cucumber.java.Scenario> current = new ThreadLocal<>();
+
+        public static void set(io.cucumber.java.Scenario scenario) {
+            current.set(scenario);
+        }
+
+        public static io.cucumber.java.Scenario get() {
+            return current.get();
+        }
+
+        public static void clear() {
+            current.remove();
         }
     }
 }
