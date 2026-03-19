@@ -52,15 +52,20 @@ dependencies {
 
     testImplementation "org.junit.platform:junit-platform-launcher:${junit_platform_launcher_version}"
     testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumber_junit_platform_engine_version}"
+    // Classic Cucumber JUnit runner required for Serenity's Cucumber integration
+    testImplementation "io.cucumber:cucumber-junit:7.34.2"
     testImplementation "org.junit.platform:junit-platform-suite:${junit_platform_suite_version}"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${junit_jupiter_engine_version}"
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "org.assertj:assertj-core:${assertj_core_version}"
+    // Serenity JUnit integration to capture test outcomes for reports
+    testImplementation "net.serenity-bdd:serenity-junit:${serenity_version}"
 
     implementation "ch.qos.logback:logback-classic:${logback_classic_version}"
 }
 
 test {
-    useJUnitPlatform()
+    useJUnit()
     systemProperty "cucumber.filter.tags", System.getProperty("cucumber.filter.tags")
     testLogging {
         events "passed", "skipped", "failed"
@@ -70,7 +75,7 @@ test {
 }
 
 serenity {
-    reports = ["single-page-html"]
+    reports = ["single-page-html", "html"]
 }
 
 gradle.startParameter.continueOnFailure = true
