@@ -5,9 +5,9 @@ dist/
 *.class
 *.jar
 *.war
-
-# Gradle
 .gradle/
+# Gradle
+target/
 gradle-app.setting
 gradlew
 gradlew.bat
