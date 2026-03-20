@@ -1,38 +1,66 @@
-# AUTO_FRONT_POM_FACTORY - Frontend Automation (POM)
+docker ps
+# AUTO_FRONT_POM_FACTORY — Resumen rápido
 
-Este proyecto contiene las pruebas de frontend del catálogo utilizando el patrón **Page Object Model (POM)** y **Factory** con Serenity BDD.
+Automatización UI (POM + Factory) con Serenity BDD + Cucumber (JUnit 5). El SUT completo (backend, frontend, infra) está en el submódulo `shared-specs/`.
 
-## Requisitos Previos
+## Quick Start
 
-### Entorno de Aplicación (SUT)
+1) Clonar e inicializar submódulos
 
-Antes de ejecutar las pruebas, asegúrate de tener el sistema en funcionamiento:
-
-1.  **Clonar el repositorio**: `git clone [URL_REPOSITORIO_TICKETING_PROJECT]`
-2.  **Levantar Backend (Docker)**: `docker-compose up -d` desde la raíz de `ticketing_project`.
-3.  **Levantar Frontend**: Navega a `ticketing_project/frontend` y ejecuta:
-    ```bash
-    pnpm install && pnpm dev
-    # o npm install && npm run dev
-    ```
-
-### Herramientas
-- **Java 17** o superior
-- **Serenity BDD**
-- **Gradle** (usar `./gradlew`)
-- **Google Chrome y ChromeDriver**
-- **JUnit 5**
-- **Cucumber**
-
-## 🎯 Objetivo
-Validar el flujo de reserva de asientos mediante una implementación tradicional de POM usando la anotación `@FindBy`.
-
-## 📜 Especificaciones de Negocio
-Este repositorio consume las specs centralizadas mediante un submódulo en `shared-specs/`.
-
-## 🚀 Ejecución
-Para ejecutar las pruebas y generar el reporte:
 ```bash
-./gradlew clean test aggregate
+git clone https://github.com/JostinAlvaradoS/AUTO_API_SCREENPLAY.git
+cd AUTO_API_SCREENPLAY
+git submodule update --init --recursive
 ```
-Los reportes se generan en `target/site/serenity/index.html`.
+
+2) Alinear submódulo a `main` (evita `detached HEAD`)
+
+```bash
+cd shared-specs
+git checkout main
+git pull origin main
+cd ..
+```
+
+3) Levantar infra (backend)
+
+```bash
+cd shared-specs/infra
+docker compose up -d --build
+```
+
+4) Levantar frontend
+
+```bash
+cd ../frontend
+pnpm install # o npm install
+pnpm dev     # o npm run dev
+cd ../../
+```
+
+5) Ejecutar tests
+
+```bash
+gradle clean test aggregate
+```
+
+## Estructura esencial
+
+AUTO_FRONT_POM_FACTORY/
+├── src/
+├── build.gradle
+├── shared-specs/
+│   ├── infra/
+│   └── frontend/
+└── README.md
+
+## Troubleshooting rápido
+
+- Submódulo en `detached HEAD`: `cd shared-specs && git checkout main && git pull`
+- Backend no responde: `cd shared-specs/infra && docker compose logs -f` → `docker compose down && up -d --build`
+- Frontend falla: `cd shared-specs/frontend && pnpm install && pnpm dev` (usar `nvm` si hace falta)
+- ChromeDriver mismatch: emparejar versiones Chrome/ChromeDriver o usar imagen CI compatible
+
+## Requisitos mínimos
+
+- Java JDK (17+), Git, Docker, Docker Compose, Node.js (LTS), pnpm/npm
