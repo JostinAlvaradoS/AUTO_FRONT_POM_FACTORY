@@ -29,7 +29,6 @@ Validar el flujo de reserva de asientos mediante una implementación tradicional
 
 ## 📜 Especificaciones de Negocio
 Este repositorio consume las specs centralizadas mediante un submódulo en `shared-specs/`.
-- Ver historias de usuario: [hu01-reserva-asiento.feature](shared-specs/specs/001-ticketing-mvp/hu01-reserva-asiento.feature)
 
 ## 🚀 Ejecución
 Para ejecutar las pruebas y generar el reporte:
