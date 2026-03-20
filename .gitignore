@@ -1,0 +1,103 @@
+# Build and compiled output
+build/
+target/
+dist/
+*.class
+*.jar
+*.war
+.gradle/
+# Gradle
+target/
+gradle-app.setting
+gradlew
+gradlew.bat
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Node and npm (Frontend)
+node_modules/
+.npm
+.npmrc
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+dist/
+.next/
+out/
+
+# IDE and Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+eclipse.preferences.epf
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+.env.test
+.env.production.local
+local.properties
+
+# OS specific
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime
+tmp/
+temp/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+.coverage
+.nyc_output/
+htmlcov/
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Test reports and results
+test-results/
+surefire-reports/
+failsafe-reports/
+cucumber-reports/
+
+# IntelliJ specific
+out/
+*.orig
+.idea_modules/
+
+# Misc
+*.bak
+*.tmp
+*.swp
+.project
+.classpath

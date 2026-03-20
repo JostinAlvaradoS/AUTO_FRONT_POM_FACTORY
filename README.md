@@ -1,11 +1,26 @@
-# AUTO_FRONT_POM_FACTORY
+# AUTO_FRONT_POM_FACTORY - Frontend Automation (POM)
 
-Proyecto de automatización UI para la Ticketing Platform utilizando el patrón **Page Object Model (POM)** con **Page Factory**.
+Este proyecto contiene las pruebas de frontend del catálogo utilizando el patrón **Page Object Model (POM)** y **Factory** con Serenity BDD.
 
-## 🛠️ Tecnologías
-- **Java 17**
+## Requisitos Previos
+
+### Entorno de Aplicación (SUT)
+
+Antes de ejecutar las pruebas, asegúrate de tener el sistema en funcionamiento:
+
+1.  **Clonar el repositorio**: `git clone [URL_REPOSITORIO_TICKETING_PROJECT]`
+2.  **Levantar Backend (Docker)**: `docker-compose up -d` desde la raíz de `ticketing_project`.
+3.  **Levantar Frontend**: Navega a `ticketing_project/frontend` y ejecuta:
+    ```bash
+    pnpm install && pnpm dev
+    # o npm install && npm run dev
+    ```
+
+### Herramientas
+- **Java 17** o superior
 - **Serenity BDD**
-- **Gradle**
+- **Gradle** (usar `./gradlew`)
+- **Google Chrome y ChromeDriver**
 - **JUnit 5**
 - **Cucumber**
 
