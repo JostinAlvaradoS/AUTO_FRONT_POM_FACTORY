@@ -82,6 +82,19 @@ public class TestDataConstants {
     /** Error message for duplicate event name */
     public static final String ERROR_DUPLICATE_EVENT = "Un evento con este nombre ya existe";
     
+    // ================== WAITLIST TEST DATA ==================
+    /** Email principal para escenarios de waitlist */
+    public static final String WAITLIST_EMAIL        = "jostin@example.com";
+
+    /** Segundo email para escenarios de rotación en waitlist */
+    public static final String WAITLIST_SECOND_EMAIL = "segundo@example.com";
+
+    /** Nombre del evento usado en los escenarios de waitlist */
+    public static final String WAITLIST_EVENT_NAME   = "Concierto Rock 2026";
+
+    /** Mensaje de éxito del WaitlistModal */
+    public static final String WAITLIST_SUCCESS_TEXT = "You're on the list!";
+
     // ================== HELPER METHODS ==================
     /**
      * Generates a string of specified length filled with 'x' characters.

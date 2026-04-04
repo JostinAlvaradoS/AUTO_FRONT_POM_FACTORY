@@ -128,6 +128,25 @@ public class SelectorConstants {
     /** Generic page loading spinner */
     public static final String PAGE_LOADING_SPINNER = "id:loadingSpinner";
     
+    // ================== WaitlistPage — Modal de Lista de Espera ==================
+    /** Botón "Join the Waitlist" en la página del evento agotado */
+    public static final String WAITLIST_JOIN_BUTTON    = "xpath://button[contains(text(), 'Join the Waitlist')]";
+
+    /** Campo de email dentro del WaitlistModal */
+    public static final String WAITLIST_EMAIL_INPUT    = "css:#waitlist-email";
+
+    /** Botón de submit dentro del WaitlistModal */
+    public static final String WAITLIST_SUBMIT_BUTTON  = "xpath://button[normalize-space()='Join Waitlist']";
+
+    /** Mensaje de éxito tras registrarse correctamente */
+    public static final String WAITLIST_SUCCESS_MSG    = "xpath://*[contains(text(),\"You're on the list!\")]";
+
+    /** Texto de posición en la cola (ej: #1) */
+    public static final String WAITLIST_POSITION_TEXT  = "css:span.font-bold.text-accent.text-base";
+
+    /** Mensaje de error dentro del modal (conflicto 409) */
+    public static final String WAITLIST_ERROR_MSG      = "css:p.text-sm.text-destructive";
+
     // Utility: prevent instantiation
     private SelectorConstants() {
         throw new AssertionError("Cannot instantiate constants class");
