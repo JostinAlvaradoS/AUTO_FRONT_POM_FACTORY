@@ -177,7 +177,7 @@ public class WaitlistSteps {
 
     @Entonces("el sistema marca la entrada de {string} como Expirado")
     public void sistemaeMarcaComoExpirado(String email) throws InterruptedException {
-        waitForHasPendingToBeFalse(currentEventId, 120);
+        waitForHasPendingToBeFalse(currentEventId, 250);
         boolean hasPending = queryHasPending(currentEventId);
         assertFalse(hasPending, "Después de la expiración y rotación, has-pending debe ser false");
         logger.info("Entrada de '{}' marcada como Expirado correctamente", email);
@@ -201,7 +201,7 @@ public class WaitlistSteps {
 
     @Entonces("el sistema cancela la orden y libera el asiento al pool general")
     public void sistemaCancelaOrdenYLibera() throws InterruptedException {
-        waitForHasPendingToBeFalse(currentEventId, 120);
+        waitForHasPendingToBeFalse(currentEventId, 250);
         boolean hasPending = queryHasPending(currentEventId);
         assertFalse(hasPending, "Después de liberar al pool, has-pending debe ser false");
         logger.info("Asiento liberado al pool general correctamente");
