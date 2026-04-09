@@ -53,19 +53,14 @@ public class WaitlistSteps {
         waitlistPage.joinWaitlist(email);
     }
 
-    @Entonces("la UI muestra \"You're on the list!\"")
-    public void uiMuestraMensajeExito() {
+    @Entonces("el sistema lo registra correctamente")
+    public void sistemaLoRegistraCorrectamente() {
         assertTrue(waitlistPage.isSuccessMessageVisible(),
                 "Se esperaba el mensaje de éxito 'You're on the list!' pero no se encontró");
-        logger.info("Mensaje de éxito visible correctamente");
-    }
-
-    @Y("el usuario recibe su posición en la cola")
-    public void usuarioRecibePosicionEnCola() {
         String position = waitlistPage.getQueuePosition();
         assertNotNull(position, "La posición en la cola no debe ser nula");
         assertFalse(position.isBlank(), "La posición en la cola no debe estar vacía");
-        logger.info("Posición en cola recibida: {}", position);
+        logger.info("Registro exitoso. Posición en cola: {}", position);
     }
 
     // =====================================================================
@@ -84,11 +79,11 @@ public class WaitlistSteps {
         waitlistPage.navigateToEventPage(currentEventId);
     }
 
-    @Entonces("el botón \"Join the Waitlist\" no es visible en la UI")
-    public void botonWaitlistNoVisible() {
+    @Entonces("el sistema indica que aún hay tickets disponibles")
+    public void sistemaIndicaQueHayTickets() {
         assertFalse(waitlistPage.isWaitlistButtonVisible(),
                 "El botón 'Join the Waitlist' NO debería ser visible cuando hay tickets disponibles");
-        logger.info("Botón 'Join the Waitlist' correctamente ausente");
+        logger.info("Botón 'Join the Waitlist' correctamente ausente — hay tickets disponibles");
     }
 
     // =====================================================================
@@ -113,8 +108,8 @@ public class WaitlistSteps {
         logger.info("Segundo intento de registro para '{}'", currentEmail);
     }
 
-    @Entonces("la UI muestra el mensaje de conflicto retornado por la API")
-    public void uiMuestraMensajeConflicto() {
+    @Entonces("el sistema indica que ya está en la lista de espera")
+    public void sistemaIndicaQueYaEstaEnLista() {
         assertTrue(waitlistPage.isErrorMessageVisible(),
                 "Se esperaba un mensaje de error (conflicto 409) pero no se encontró");
         String errorMsg = waitlistPage.getErrorMessage();
