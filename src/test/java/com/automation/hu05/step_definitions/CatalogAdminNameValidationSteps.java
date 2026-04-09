@@ -10,9 +10,6 @@ import com.automation.hu05.factories.PageObjectFactory;
 import com.automation.hu05.steps.EventSteps;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Steps specific to the name-required validation scenario.
- */
 public class CatalogAdminNameValidationSteps {
 
     private EventPage eventPage;

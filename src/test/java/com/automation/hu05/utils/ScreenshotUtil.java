@@ -15,9 +15,9 @@ public class ScreenshotUtil {
             if (scenario == null) return;
             if (!WebDriverManager.isDriverInitialized()) return;
             byte[] screenshot = ((TakesScreenshot) WebDriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
-            // Attach to Cucumber report
+            
             scenario.attach(screenshot, "image/png", "screenshot-" + System.currentTimeMillis() + ".png");
-            // (Optionally) add Serenity-specific recording here if needed for your Serenity version
+            
         } catch (Exception e) {
             System.err.println("Could not capture screenshot: " + e.getMessage());
         }

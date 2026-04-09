@@ -11,9 +11,6 @@ import com.automation.hu05.constants.TestDataConstants;
 import com.automation.hu05.steps.EventSteps;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Steps specific to the successful event registration scenario.
- */
 public class CatalogAdminRegisterSuccessSteps {
 
     private EventPage eventPage;

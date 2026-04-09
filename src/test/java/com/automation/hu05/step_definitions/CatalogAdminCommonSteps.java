@@ -8,9 +8,6 @@ import com.automation.hu05.pages.LoginPage;
 import com.automation.hu05.factories.PageObjectFactory;
 import com.automation.hu05.constants.TestDataConstants;
 
-/**
- * Common shared steps for Catalog Admin feature (authentication and navigation).
- */
 public class CatalogAdminCommonSteps {
 
     private LoginPage loginPage;

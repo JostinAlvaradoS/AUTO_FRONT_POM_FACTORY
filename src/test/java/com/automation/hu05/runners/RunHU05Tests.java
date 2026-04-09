@@ -4,9 +4,6 @@ import org.junit.runner.RunWith;
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
 
-/**
- * Classic Serenity + Cucumber runner using CucumberWithSerenity.
- */
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
     features = "src/test/resources/features/catalog-admin.feature",
