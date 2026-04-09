@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import com.automation.hu05.pages.EventPage;
 import com.automation.hu05.pages.EventListPage;
 import com.automation.hu05.pages.LoginPage;
+import com.automation.hu05.pages.WaitlistPage;
 
 /**
  * PageObjectFactory - Centralized Page Object Instantiation.
@@ -34,6 +35,7 @@ public class PageObjectFactory {
     private EventPage eventPage;
     private EventListPage eventListPage;
     private LoginPage loginPage;
+    private WaitlistPage waitlistPage;
     
     /**
      * Constructor initializes the factory with a WebDriver instance.
@@ -92,10 +94,18 @@ public class PageObjectFactory {
      * - When switching to a new browser instance
      * - When testing requires fresh page object state
      */
+    public WaitlistPage getWaitlistPage() {
+        if (waitlistPage == null) {
+            waitlistPage = new WaitlistPage(driver);
+        }
+        return waitlistPage;
+    }
+
     public void reset() {
         eventPage = null;
         eventListPage = null;
         loginPage = null;
+        waitlistPage = null;
     }
     
     /**

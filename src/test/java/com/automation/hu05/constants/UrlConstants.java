@@ -23,6 +23,15 @@ public class UrlConstants {
     
     /** Event list/management page */
     public static final String EVENT_LIST_PAGE = BASE_URL + "/admin/events";
+
+    /** Public event detail page (se concatena /{eventId}) */
+    public static final String EVENT_DETAIL_PAGE = BASE_URL + "/events/";
+
+    /** Waitlist API base URL */
+    public static final String WAITLIST_API_URL = "http://localhost:5006";
+
+    /** Waitlist has-pending endpoint */
+    public static final String WAITLIST_HAS_PENDING = WAITLIST_API_URL + "/api/v1/waitlist/has-pending";
     
     // Utility: prevent instantiation
     private UrlConstants() {
