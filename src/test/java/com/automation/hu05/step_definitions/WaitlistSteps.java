@@ -17,11 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Step Definitions para los escenarios de Lista de Espera (Waitlist).
- * Escenarios 1-3: interacción vía UI (WaitlistPage).
- * Escenarios 4-6: verificación vía API (RestAssured contra Waitlist.Api).
- */
 public class WaitlistSteps {
 
     private static final Logger logger = LoggerFactory.getLogger(WaitlistSteps.class);
@@ -34,10 +29,6 @@ public class WaitlistSteps {
         PageObjectFactory factory = WebDriverManager.getPageObjectFactory();
         this.waitlistPage = factory.getWaitlistPage();
     }
-
-    // =====================================================================
-    // ESCENARIO 1: Registro exitoso (@RegistroExitoso)
-    // =====================================================================
 
     @Dado("que el evento {string} está agotado y el usuario navega a su página")
     public void eventoAgotadoNavegaAPagina(String eventName) {
@@ -53,24 +44,15 @@ public class WaitlistSteps {
         waitlistPage.joinWaitlist(email);
     }
 
-    @Entonces("la UI muestra \"You're on the list!\"")
-    public void uiMuestraMensajeExito() {
+    @Entonces("el sistema lo registra correctamente")
+    public void sistemaLoRegistraCorrectamente() {
         assertTrue(waitlistPage.isSuccessMessageVisible(),
                 "Se esperaba el mensaje de éxito 'You're on the list!' pero no se encontró");
-        logger.info("Mensaje de éxito visible correctamente");
-    }
-
-    @Y("el usuario recibe su posición en la cola")
-    public void usuarioRecibePosicionEnCola() {
         String position = waitlistPage.getQueuePosition();
         assertNotNull(position, "La posición en la cola no debe ser nula");
         assertFalse(position.isBlank(), "La posición en la cola no debe estar vacía");
-        logger.info("Posición en cola recibida: {}", position);
+        logger.info("Registro exitoso. Posición en cola: {}", position);
     }
-
-    // =====================================================================
-    // ESCENARIO 2: Tickets disponibles (@TicketsDisponibles)
-    // =====================================================================
 
     @Dado("que el evento {string} tiene tickets disponibles")
     public void eventoConTicketsDisponibles(String eventName) {
@@ -84,16 +66,12 @@ public class WaitlistSteps {
         waitlistPage.navigateToEventPage(currentEventId);
     }
 
-    @Entonces("el botón \"Join the Waitlist\" no es visible en la UI")
-    public void botonWaitlistNoVisible() {
+    @Entonces("el sistema indica que aún hay tickets disponibles")
+    public void sistemaIndicaQueHayTickets() {
         assertFalse(waitlistPage.isWaitlistButtonVisible(),
                 "El botón 'Join the Waitlist' NO debería ser visible cuando hay tickets disponibles");
-        logger.info("Botón 'Join the Waitlist' correctamente ausente");
+        logger.info("Botón 'Join the Waitlist' correctamente ausente — hay tickets disponibles");
     }
-
-    // =====================================================================
-    // ESCENARIO 3: Registro duplicado (@RegistroDuplicado)
-    // =====================================================================
 
     @Dado("que {string} ya está registrado en la lista del evento desde la UI")
     public void yaRegistradoDesdeUI(String email) {
@@ -113,18 +91,14 @@ public class WaitlistSteps {
         logger.info("Segundo intento de registro para '{}'", currentEmail);
     }
 
-    @Entonces("la UI muestra el mensaje de conflicto retornado por la API")
-    public void uiMuestraMensajeConflicto() {
+    @Entonces("el sistema indica que ya está en la lista de espera")
+    public void sistemaIndicaQueYaEstaEnLista() {
         assertTrue(waitlistPage.isErrorMessageVisible(),
                 "Se esperaba un mensaje de error (conflicto 409) pero no se encontró");
         String errorMsg = waitlistPage.getErrorMessage();
         logger.info("Mensaje de conflicto recibido: '{}'", errorMsg);
         assertFalse(errorMsg.isBlank(), "El mensaje de error no debe estar vacío");
     }
-
-    // =====================================================================
-    // ESCENARIOS 4-6: Verificación vía API (RestAssured)
-    // =====================================================================
 
     @Dado("que {string} es el primero en la lista de espera del evento")
     public void primeroEnLista(String email) {
@@ -206,10 +180,6 @@ public class WaitlistSteps {
         assertFalse(hasPending, "Después de liberar al pool, has-pending debe ser false");
         logger.info("Asiento liberado al pool general correctamente");
     }
-
-    // =====================================================================
-    // Helpers privados
-    // =====================================================================
 
     private void registrarViaAPI(String email, String eventId) {
         try {

@@ -13,14 +13,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * Hooks para el ciclo de vida de los tests de Waitlist.
- *
- * @Before: Crea el evento de prueba via Catalog + Inventory API.
- *   - Eventos agotados: genera asientos y bloquea TODOS (@RegistroExitoso, @RegistroDuplicado, etc.)
- *   - Eventos con stock: genera asientos SIN bloquear (@TicketsDisponibles)
- * @After: Desactiva el evento de prueba.
- */
 public class WaitlistHooks {
 
     private static final Logger logger = LoggerFactory.getLogger(WaitlistHooks.class);
@@ -47,7 +39,7 @@ public class WaitlistHooks {
 
         if (needsSoldOut) {
             blockFirstSeat(eventId);
-            // Allow Kafka reservation-created event to propagate to Catalog service
+            
             try { Thread.sleep(3000); } catch (InterruptedException ignored) {}
         }
 
@@ -135,8 +127,6 @@ public class WaitlistHooks {
             logger.warn("Error bloqueando asiento: {}", e.getMessage());
         }
     }
-
-    // ---- Scenario Context ----
 
     public static class ScenarioContext {
         private static final ThreadLocal<String> eventId = new ThreadLocal<>();

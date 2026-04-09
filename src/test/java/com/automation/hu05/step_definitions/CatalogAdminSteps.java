@@ -13,10 +13,6 @@ import com.automation.hu05.constants.TestDataConstants;
 import com.automation.hu05.constants.UrlConstants;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Step Definitions for Catalog Admin Scenarios.
- * Aligned with catalog-admin.feature
- */
 public class CatalogAdminSteps {
     
     private EventPage eventPage;
@@ -31,27 +27,15 @@ public class CatalogAdminSteps {
         this.loginPage = pageObjectFactory.getLoginPage();
     }
 
-    // ==================== AUTHENTICATION STEPS ====================
-
-    // Authentication: handled in CatalogAdminCommonSteps
-
     @Y("no tengo permisos de administrador")
     public void noAdminPermissions() {
-        // Logic to verify or ensure current user is not admin
-        // This is mostly a contextual step
+        
     }
-
-    // ==================== NAVIGATION STEPS ====================
-
-    // Navigation to event management: handled in CatalogAdminCommonSteps
 
     @Cuando("intento acceder al módulo de gestión de eventos")
     public void attemptAccessEventManagement() {
         eventListPage.navigateToEventList();
     }
-
-    // ==================== CREATION STEPS ====================
-    // Creation and assertion step definitions were moved to dedicated step files.
 
     @Entonces("debería visualizar un mensaje indicando que el precio debe ser mayor a cero")
     public void verifyPriceErrorMessage() {
